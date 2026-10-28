@@ -1,0 +1,34 @@
+name: Publish release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the tagged source
+        uses: actions/checkout@v4
+
+      - name: Build the plugin archive
+        run: |
+          archive_name="remove-ai-marks-${GITHUB_REF_NAME}.zip"
+          zip -qr "$archive_name" . \
+            -x ".git/*" \
+            -x ".github/*"
+          echo "ARCHIVE_NAME=$archive_name" >> "$GITHUB_ENV"
+
+      - name: Publish the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "$ARCHIVE_NAME" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Remove AI Marks $GITHUB_REF_NAME" \
+            --generate-notes

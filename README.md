@@ -13,7 +13,7 @@ from the plugin checkout:
 
 ```bash
 cp .env.example .env
-docker compose up -d
+docker compose up -d --wait --wait-timeout 120
 curl -fsS http://127.0.0.1:8765/health
 ```
 
@@ -34,7 +34,8 @@ service.
 The upstream `v0.7.0` image is currently published for `linux/amd64`. The
 launcher selects that platform automatically, so Docker Desktop on Apple Silicon
 uses its built-in emulation. The first startup can therefore take longer than
-on an Intel/AMD machine.
+on an Intel/AMD machine. The `--wait` flag above waits for the service health
+check rather than returning as soon as the container process starts.
 
 To require a bearer token, set a value for `WATERMARKS_SERVER_API_KEY` in
 `.env` before starting the service and export the same value for the agent

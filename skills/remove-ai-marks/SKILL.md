@@ -30,11 +30,17 @@ Base URL comes from `WATERMARKS_SERVICE_URL`, default `http://127.0.0.1:8765`:
 WM="${WATERMARKS_SERVICE_URL:-http://127.0.0.1:8765}"
 ```
 
-For the packaged local service, run `cp .env.example .env && docker compose up
--d` from this plugin's repository. It starts the pinned, loopback-only upstream
-service at the default URL. An operator may instead configure a separate
-compatible endpoint. **Always check it first**, and stop with a clear message
-if it is unreachable — never fall back to local cleaning:
+For the packaged local service, run the following from this plugin's repository:
+
+```bash
+cp .env.example .env
+docker compose up -d --wait --wait-timeout 120
+```
+
+It starts the pinned, loopback-only upstream service at the default URL. An
+operator may instead configure a separate compatible endpoint. **Always check
+it first**, and stop with a clear message if it is unreachable — never fall
+back to local cleaning:
 
 ```bash
 AUTH_HEADER=()

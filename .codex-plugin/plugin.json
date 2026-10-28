@@ -9,7 +9,7 @@
     "shortDescription": "Clean provenance metadata"
   },
   "name": "remove-ai-marks",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Inspect and clean AI provenance metadata, invisible Unicode, and supported content containers through a locally runnable watermark-cleaning service.",
   "author": {
     "name": "abylkhaiyrov"

@@ -10,6 +10,16 @@ services:
       - "127.0.0.1:8765:8765"
     environment:
       WATERMARKS_SERVER_API_KEY: ${WATERMARKS_SERVER_API_KEY:-}
+      WATERMARKS_CLEAN_STRATEGY_FILE: /config/clean_strategy.json
+      WATERMARKS_REWRITE_BACKEND: ${WATERMARKS_REWRITE_BACKEND:-}
+      WATERMARKS_REWRITE_MODEL: ${WATERMARKS_REWRITE_MODEL:-}
+      WATERMARKS_REWRITE_BASE_URL: ${WATERMARKS_REWRITE_BASE_URL:-}
+      WATERMARKS_REWRITE_API_KEY: ${WATERMARKS_REWRITE_API_KEY:-}
+      WATERMARKS_REWRITE_ALLOW_REMOTE: ${WATERMARKS_REWRITE_ALLOW_REMOTE:-}
+    volumes:
+      - ./service-config:/config:ro
+    extra_hosts:
+      - host.docker.internal:host-gateway
     read_only: true
     tmpfs:
       - /tmp

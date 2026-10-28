@@ -37,6 +37,39 @@ uses its built-in emulation. The first startup can therefore take longer than
 on an Intel/AMD machine. The `--wait` flag above waits for the service health
 check rather than returning as soon as the container process starts.
 
+## Text: enable Layer B rewriting
+
+The core image can deterministically remove invisible Unicode and file metadata
+without a model. It cannot rewrite prose by itself. The bundled
+`service-config/clean_strategy.json` enables a `paraphrase@0.8` Layer B
+strategy; configure a rewrite backend in your untracked `.env` to use it.
+
+For example, with a local Ollama server and a model you have already pulled:
+
+```dotenv
+WATERMARKS_REWRITE_BACKEND=ollama
+WATERMARKS_REWRITE_MODEL=llama3.2
+WATERMARKS_REWRITE_BASE_URL=http://host.docker.internal:11434
+WATERMARKS_REWRITE_ALLOW_REMOTE=1
+```
+
+Then restart and wait for the service:
+
+```bash
+docker compose down
+docker compose up -d --wait --wait-timeout 120
+```
+
+An OpenAI-compatible endpoint is also supported; use the commented variables
+in `.env.example`. Never commit API keys. A remote endpoint requires explicit
+`WATERMARKS_REWRITE_ALLOW_REMOTE=1` because text leaves the local service.
+
+An AI-detector percentage is not evidence of a technical watermark and no
+cleaning result can prove that text is human-written. The default image has no
+vendor text detector or pixel-watermark backend: it reports those limitations
+through `/capabilities`. Treat a successful result only as evidence that the
+reported Unicode/metadata findings changed.
+
 To require a bearer token, set a value for `WATERMARKS_SERVER_API_KEY` in
 `.env` before starting the service and export the same value for the agent
 client. Keep `.env` private; it is intentionally ignored by Git.

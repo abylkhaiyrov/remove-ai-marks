@@ -108,9 +108,26 @@ the same way; `auto` only cleans an attachment that carries AI/C2PA markers;
 `detect_before` / `detect_after` (text and
 images: run watermark detection on the input and on the cleaned output,
 included in the report), and `strategy` (text: an ordered `tactic@intensity`
-list such as `"paraphrase@0.8,mlm@0.2"` that runs the Layer B rewrite after
-Layer A; when omitted the default from `config/clean_strategy.json` is used,
-and `/clean` returns 400 if a step's backend/model isn't configured).
+list such as `"paraphrase@0.8"` that runs the Layer B rewrite after Layer A;
+when omitted, the packaged `/config/clean_strategy.json` default is used, and
+`/clean` returns 400 if the selected backend/model is not configured).
+
+### Completion checks — never infer success
+
+For every `/clean` request, inspect the HTTP status and JSON body before
+writing or describing an output. A non-2xx response or `"ok": false` means no
+successful clean; report the service error and do not claim the file was
+changed. For a 2xx text response, confirm `report.layer_b` is present before
+claiming that a statistical-rewrite pass ran. Re-run `/inspect` on the output
+when provenance or invisible-Unicode findings matter, and summarize only the
+findings that actually changed.
+
+An external "AI probability" score is not proof of a technical watermark. Do
+not call a document watermark-free merely because such a score changed, and do
+not promise that cleaning can make text undetectable or establish human
+authorship. The default service image has no vendor text detector or
+pixel-watermark backend; `/capabilities` is the authoritative source for what
+was available during the request.
 
 **Inspect first** (decide, don't guess):
 
@@ -215,11 +232,11 @@ curl -s -X POST "${AUTH_HEADER[@]}" "$WM/clean" -H 'Content-Type: application/js
 After Layer A, **always propose** a statistical-mark reduction pass for natural-language content. Do not skip this step silently.
 
 For **plain text** (pasted / `.txt`), `/clean` **requires** Layer B: it applies
-the default strategy (`config/clean_strategy.json`, e.g.
-`paraphrase@0.8,mlm@0.2`) or the `options.strategy` override after Layer A,
-reports `report.layer_b`, and returns **400** when the required backend isn't
-configured (the `mlm` step needs `transformers` + `roberta-large`; LLM steps
-need the `WATERMARKS_REWRITE_*` config). Markdown/HTML and other containers
+the packaged default strategy (`paraphrase@0.8`) or the `options.strategy`
+override after Layer A, reports `report.layer_b`, and returns **400** when the
+required rewrite backend isn't configured. Configure the service through the
+`WATERMARKS_REWRITE_*` variables documented in `.env.example`. Markdown/HTML
+and other containers
 (`.md`, `.html`, `.tex`, `.pdf`, `.docx`, …) are cleaned as containers (metadata +
 Layer A) and do **not** run the Layer B rewrite in `/clean`; apply Layer B to
 their prose by extracting the text and passing it to `/clean` as text, or by

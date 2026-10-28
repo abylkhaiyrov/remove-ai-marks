@@ -3,6 +3,9 @@ name: remove-ai-marks
 services:
   watermarks-remover:
     image: ghcr.io/guillaumemeyer/watermarks-remover:v0.7.0
+    # v0.7.0 is published for linux/amd64 only. Docker Desktop on Apple
+    # Silicon transparently emulates this platform.
+    platform: linux/amd64
     ports:
       - "127.0.0.1:8765:8765"
     environment:

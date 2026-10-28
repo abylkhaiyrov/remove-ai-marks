@@ -8,7 +8,7 @@
     {
       "name": "remove-ai-marks",
       "source": "./",
-      "description": "Inspect and clean supported provenance marks through a configured service."
+      "description": "Inspect and clean supported provenance marks through a locally runnable service."
     }
   ]
 }

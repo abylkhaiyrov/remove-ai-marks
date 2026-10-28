@@ -1,0 +1,19 @@
+name: remove-ai-marks
+
+services:
+  watermarks-remover:
+    image: ghcr.io/guillaumemeyer/watermarks-remover:v0.7.0
+    ports:
+      - "127.0.0.1:8765:8765"
+    environment:
+      WATERMARKS_SERVER_API_KEY: ${WATERMARKS_SERVER_API_KEY:-}
+    read_only: true
+    tmpfs:
+      - /tmp
+    init: true
+    user: "10001:10001"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped

@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "remove-ai-marks",
-  "version": "0.1.3",
-  "description": "Inspect and clean AI provenance metadata, invisible Unicode, and supported content containers through a configured watermark-cleaning service.",
+  "version": "0.2.0",
+  "description": "Inspect and clean AI provenance metadata, invisible Unicode, and supported content containers through a locally runnable watermark-cleaning service.",
   "author": {
     "name": "abylkhaiyrov"
   },
@@ -19,7 +19,7 @@
       "interface": {
         "displayName": "Remove AI Marks",
         "shortDescription": "Clean provenance metadata",
-        "longDescription": "Guides inspection and cleaning of invisible Unicode, provenance metadata, and supported files through a configured cleaning service.",
+        "longDescription": "Guides inspection and cleaning of invisible Unicode, provenance metadata, and supported files through a locally runnable cleaning service.",
         "developerName": "abylkhaiyrov",
         "category": "Productivity",
         "capabilities": [],

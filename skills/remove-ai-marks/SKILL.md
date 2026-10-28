@@ -19,9 +19,8 @@ not include the optional reference files named in the original source, so do
 not attempt to load them or treat unavailable vendor-specific guidance as fact.
 
 This skill is a **thin client**. All deterministic cleaning machinery runs in a
-separate HTTP service (this repo's `service/`), so the agent host needs no
-Python, venvs, or cleaning tools. Call the service with `curl`; never run
-cleaning scripts directly.
+separate HTTP service, so the agent host needs no Python, venvs, or cleaning
+tools. Call the service with `curl`; never run cleaning scripts directly.
 
 ## Service access
 
@@ -31,10 +30,11 @@ Base URL comes from `WATERMARKS_SERVICE_URL`, default `http://127.0.0.1:8765`:
 WM="${WATERMARKS_SERVICE_URL:-http://127.0.0.1:8765}"
 ```
 
-The service is started either by the operator (`docker compose up -d`, or a
-published GHCR image) or locally (`make serve`). **Always check it first**, and
-stop with a clear message if it is unreachable — never fall back to local
-cleaning:
+For the packaged local service, run `cp .env.example .env && docker compose up
+-d` from this plugin's repository. It starts the pinned, loopback-only upstream
+service at the default URL. An operator may instead configure a separate
+compatible endpoint. **Always check it first**, and stop with a clear message
+if it is unreachable — never fall back to local cleaning:
 
 ```bash
 AUTH_HEADER=()

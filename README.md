@@ -1,24 +1,50 @@
 # Remove AI Marks
 
-An Agent Plugins 1.0 skills-only plugin for inspecting and cleaning supported
-content through a separately configured watermark-cleaning service.
+An Agent Plugins 1.0 plugin for inspecting and cleaning supported content. It
+includes a secure, local Docker Compose launcher for the compatible
+[`watermarks-remover` v0.7.0](https://github.com/guillaumemeyer/watermarks-remover/releases/tag/v0.7.0)
+HTTP service, so the skill is usable after a short setup instead of relying on
+an unspecified server.
+
+## Quick start: run the local service
+
+Install Docker Desktop (or Docker Engine with the Compose plugin), then run
+from the plugin checkout:
+
+```bash
+cp .env.example .env
+docker compose up -d
+curl -fsS http://127.0.0.1:8765/health
+```
+
+The service is reachable only from the local machine at
+`http://127.0.0.1:8765`, which is also the skill's default
+`WATERMARKS_SERVICE_URL`. Stop it with:
+
+```bash
+docker compose down
+```
+
+The compose file pins the upstream service to `v0.7.0`, uses a read-only
+filesystem, a temporary `/tmp`, an unprivileged user, and an explicit
+loopback-only port binding. It does not mount your project files into the
+container: the skill submits only the selected file bytes to the local HTTP
+service.
+
+To require a bearer token, set a value for `WATERMARKS_SERVER_API_KEY` in
+`.env` before starting the service and export the same value for the agent
+client. Keep `.env` private; it is intentionally ignored by Git.
+
+For a remote service, set `WATERMARKS_SERVICE_URL` to its HTTPS URL. Do not
+send the API key over plain HTTP.
 
 ## What it provides
 
 - Inspection-first workflows for invisible Unicode, provenance metadata, and
   supported content containers.
+- A local service launcher based on the public upstream implementation.
 - Guidance for supported text, image, document, and container formats.
 - Explicit reporting of service capabilities and remaining limitations.
-
-## Requirements
-
-This repository does not include, deploy, or host the cleaning service. Before
-using the plugin, configure a service endpoint through `WATERMARKS_SERVICE_URL`.
-The skill defaults to `http://127.0.0.1:8765` and supports an optional
-`WATERMARKS_SERVER_API_KEY` environment variable for authenticated services.
-
-Use an HTTPS endpoint whenever the service runs remotely so credentials are not
-sent in clear text.
 
 ## Installation in Codex and compatible hosts
 
@@ -59,3 +85,11 @@ some provenance and pixel-domain marks can remain detectable.
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Upstream attribution
+
+The service image is provided by the independent upstream project
+[guillaumemeyer/watermarks-remover](https://github.com/guillaumemeyer/watermarks-remover).
+This repository owns the plugin packaging and launcher; it does not claim
+authorship of that service. See [NOTICE.md](NOTICE.md) for the pinned version
+and license notice.

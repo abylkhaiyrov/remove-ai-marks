@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "remove-ai-marks",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Inspect and clean AI provenance metadata, invisible Unicode, and supported content containers through a configured watermark-cleaning service.",
   "author": {
     "name": "abylkhaiyrov"
@@ -12,6 +12,8 @@
     "unicode",
     "privacy"
   ],
+  "homepage": "https://github.com/abylkhaiyrov/remove-ai-marks",
+  "repository": "https://github.com/abylkhaiyrov/remove-ai-marks",
   "extensions": {
     "com.openai": {
       "interface": {

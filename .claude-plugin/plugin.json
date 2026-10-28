@@ -1,0 +1,10 @@
+{
+  "name": "remove-ai-marks",
+  "version": "0.1.2",
+  "description": "Inspect and clean supported provenance marks through a configured watermark-cleaning service.",
+  "author": {
+    "name": "abylkhaiyrov"
+  },
+  "homepage": "https://github.com/abylkhaiyrov/remove-ai-marks",
+  "repository": "https://github.com/abylkhaiyrov/remove-ai-marks"
+}

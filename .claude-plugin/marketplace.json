@@ -1,0 +1,14 @@
+{
+  "name": "remove-ai-marks-marketplace",
+  "description": "Public marketplace for the Remove AI Marks plugin.",
+  "owner": {
+    "name": "abylkhaiyrov"
+  },
+  "plugins": [
+    {
+      "name": "remove-ai-marks",
+      "source": "./",
+      "description": "Inspect and clean supported provenance marks through a configured service."
+    }
+  ]
+}

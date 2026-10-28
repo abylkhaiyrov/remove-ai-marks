@@ -1,0 +1,24 @@
+{
+  "interface": {
+    "capabilities": [],
+    "category": "Productivity",
+    "defaultPrompt": "Help me inspect my content for AI provenance metadata and clean supported marks using my configured service.",
+    "developerName": "abylkhaiyrov",
+    "displayName": "Remove AI Marks",
+    "longDescription": "Guides inspection and cleaning of invisible Unicode, provenance metadata, and supported files through a configured cleaning service.",
+    "shortDescription": "Clean provenance metadata"
+  },
+  "name": "remove-ai-marks",
+  "version": "0.1.1",
+  "description": "Inspect and clean AI provenance metadata, invisible Unicode, and supported content containers through a configured watermark-cleaning service.",
+  "author": {
+    "name": "abylkhaiyrov"
+  },
+  "keywords": [
+    "metadata",
+    "content-credentials",
+    "unicode",
+    "privacy"
+  ],
+  "skills": "./skills"
+}
